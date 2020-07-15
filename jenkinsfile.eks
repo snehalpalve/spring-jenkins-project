@@ -1,0 +1,53 @@
+node {
+   def mvnHome = tool 'Maven 3.3.9'
+
+   stage('Checkout Code') { 
+      git 'https://github.com/dscorpian29/spring-jenkins-project.git'
+   }
+
+  stage('Compile') {
+      if (isUnix()) {
+         sh "'${mvnHome}/bin/mvn' clean compile"
+      } else {
+         bat(/"${mvnHome}\bin\mvn" clean /)
+      }
+   }
+
+   stage('JUnit Test') {
+      if (isUnix()) {
+         sh "'${mvnHome}/bin/mvn' compiler:testCompile -Dfilename=testng-unit.xml surefire:test"
+      } else {
+         bat(/"${mvnHome}\bin\mvn" clean test/)
+      }
+   }
+  // stage('Integration Test') {
+  //    if (isUnix()) {
+   //      sh "'${mvnHome}/bin/mvn' compiler:testCompile -Dfilename=testng-unit.xml surefire:test"
+   //   } else {
+   //      bat(/"${mvnHome}\bin\mvn" integration-test/)
+   //   }
+  // }
+ /*
+   stage('Performance Test') {
+      if (isUnix()) {
+         sh "'${mvnHome}/bin/mvn' cargo:start verify cargo:stop"
+      } else {
+         bat(/"${mvnHome}\bin\mvn" cargo:start verify cargo:stop/)
+      }
+   }
+  */
+  stage('Package') {
+      if (isUnix()) {
+         sh "'${mvnHome}/bin/mvn' clean package -DskipTests"
+      } else {
+         bat(/"${mvnHome}\bin\mvn" clean package -DskipTests/)
+      }
+   }
+   
+ //  stage('Deploy') {
+ //     timeout(time: 10, unit: 'MINUTES') {
+ //          input message: 'Deploy this web app to production ?'
+ //     }
+  //    echo 'Deploy...'
+  // }
+}
