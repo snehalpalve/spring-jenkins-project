@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven 3.3.9'
+        jdk 'jdk-1.8.0'
+          }
+
+ 
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+                  }
+
+        }
+    
+        stage('git checkout'){
+            steps {
+                git credentialsId: '1bb6bb13-5a31-41d7-82ea-9162bd53de2c', url: 'https://github.com/snehalpalve/spring.git'
+            }
+        }
+        
+        stage('compile'){
+            steps {
+                sh label: '', script: 'mvn clean compile'
+            }
+        }
+        stage('Junit Test cases'){
+            steps {
+                sh label: '', script: 'mvn compiler:testCompile -Dfilename=testng-unit.xml surefire:test'
+            }
+            post{
+                always{
+                    step ([$class: 'Publisher'])
+                }
+            }
+        }
+        
+        stage ('Package'){
+            steps {
+                sh label: '', script: 'mvn clean package -DskipTests'
+            }
+        }
+        stage ('Deploy'){
+            steps {
+                sshagent(['TOMCAT']) {
+                sh 'scp -o StrictHostKeyChecking=no target/*.war ec2-user@52.66.208.86:/opt/tomcat/webapps'
+                }
+            }
+        }
+    }
+}
