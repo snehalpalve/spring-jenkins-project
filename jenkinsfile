@@ -5,7 +5,7 @@ pipeline {
         jdk 'jdk-1.8.0'
           }
 
- 
+ <!-- Demo for GITHub --->
 
     stages {
         stage('Hello') {
