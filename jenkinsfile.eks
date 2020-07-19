@@ -2,6 +2,7 @@ pipeline {
     agent any
     tools { 
         maven 'Maven 3.3.9' 
+        scannerHome 'sonar_scanner'
         
     }
     stages {
@@ -43,7 +44,7 @@ pipeline {
 
         }
         stage('SonarQube analysis') {
-         def scannerHome = tool 'sonar_scanner';
+        
         steps {
        
         withSonarQubeEnv('Sonarqube') { // If you have configured more than one global server connection, you can specify its name
