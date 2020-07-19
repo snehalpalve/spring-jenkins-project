@@ -33,7 +33,23 @@ pipeline {
                 }
             }
         }
+        stage('Code Coverage'){
+            steps {
 
+                //sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml -Dsurefire.suiteXmlFiles=testng-unit.xml '
+                  sh ' mvn clean install cobertura:cobertura  -Dcobertura.report.format=xml -Dsurefire.suiteXmlFiles=testng-unit.xml'
+                //  sh 'cat target/site/cobertura/coverage.xml'
+            }
+
+        }
+        stage('SonarQube analysis') {
+        steps {
+        withSonarQubeEnv('Sonarqube') { // If you have configured more than one global server connection, you can specify its name
+        sh "mvn sonar:sonar"
+        }
+      }
+
+  }
         stage('Package'){
             steps {
                 sh label: '', script: 'scp -o StrictHostKeyChecking=no target/*.war ec2-user@52.55.54.236:/opt/tomcat/webapps'
