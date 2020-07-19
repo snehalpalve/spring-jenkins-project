@@ -50,11 +50,13 @@ pipeline {
       }
 
   }
-        stage('Package'){
+      /*  stage('Package'){
             steps {
                 sh label: '', script: 'scp -o StrictHostKeyChecking=no target/*.war ec2-user@52.55.54.236:/opt/tomcat/webapps'
             }
         }
+        
+        */
     }
 
 }
