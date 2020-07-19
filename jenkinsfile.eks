@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools { 
         maven 'Maven 3.3.9' 
-        scannerHome 'sonar_scanner'
+        
         
     }
     stages {
@@ -49,7 +49,7 @@ pipeline {
        
         withSonarQubeEnv('Sonarqube') { // If you have configured more than one global server connection, you can specify its name
         sh "mvn sonar:sonar"
-        sh "${scannerHome}/bin/sonar-scanner"
+      //  sh "${scannerHome}/bin/sonar-scanner"
         }
       }
 
