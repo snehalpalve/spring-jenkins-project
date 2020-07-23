@@ -32,6 +32,16 @@ pipeline {
               
 		} 
 		
+		stage('Push docker image'){
+		steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
+    	sh 'docker login -u $USER -p $PASSWORD'
+	sh 'docker push dscorpian/spring-project:0.0.1'
+}
+	  }
+              
+		}
+		
 		 
 		 
        /* stage('Application_Unit_Test'){
