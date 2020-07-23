@@ -41,6 +41,15 @@ pipeline {
 	  }
               
 		}
+		stage('Run Docker container '){
+		steps {
+       
+    	sh 'docker run -it -d --name webapp -p 9090:9090 dscorpian/spring-project:0.0.1 '
+	
+
+	  }
+              
+		}
 		
 		 
 		 
