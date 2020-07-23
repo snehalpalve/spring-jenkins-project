@@ -20,13 +20,15 @@ pipeline {
 
         stage('Compile') {
             steps {
-                sh label: '', script: 'mvn clean package'
+                sh label: '', script: 'mvn clean package -DskipTests=true'
             }
         }
          
 		 
 		stage('Build Docker Imager'){
+		steps {
         sh 'docker build -t dscorpian/spring-project:0.0.1 .'
+	  }
               
 		} 
 		
