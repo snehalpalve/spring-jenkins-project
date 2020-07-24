@@ -5,8 +5,6 @@ pipeline {
         jdk 'jdk-1.8.0'
           }
         
-        
-    }
     stages {
         stage('Hello') {
             steps {
